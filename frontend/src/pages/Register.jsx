@@ -1,3 +1,4 @@
+import toast from 'react-hot-toast';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -17,10 +18,13 @@ function Register() {
     setError('');
     try {
       await axios.post('http://localhost:5000/api/auth/register', formData);
+      toast.success('Account created! Please log in.');
       navigate('/');
     } catch (err) {
-      setError(err.response?.data?.message || 'Something went wrong');
-    }
+  const message = err.response?.data?.message || 'Something went wrong';
+  setError(message);
+  toast.error(message);
+}
   };
 
   return (

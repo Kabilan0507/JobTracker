@@ -1,3 +1,4 @@
+import toast from 'react-hot-toast';
 import { useState } from 'react';
 import axios from 'axios';
 import './JobFormModal.css';
@@ -23,11 +24,12 @@ function JobFormModal({ onClose, onJobAdded }) {
       const res = await axios.post('http://localhost:5000/api/jobs', formData, {
         headers: { Authorization: `Bearer ${token}` },
       });
+      toast.success('Application added');
       onJobAdded(res.data);
       onClose();
-    } catch (err) {
-      console.error('Failed to add job', err);
-    }
+    }  catch (err) {
+  toast.error('Failed to add application');
+}
   };
 
   return (
@@ -57,14 +59,6 @@ function JobFormModal({ onClose, onJobAdded }) {
           <div className="modal-field">
             <label>Applied date</label>
             <input type="date" name="appliedDate" value={formData.appliedDate} onChange={handleChange} />
-    </div>
-          <div className="modal-field">
-            <label>Job URL (optional)</label>
-            <input name="jobUrl" value={formData.jobUrl} onChange={handleChange} />
-          </div>
-          <div className="modal-field">
-            <label>Job URL (optional)</label>
-            <input name="jobUrl" value={formData.jobUrl} onChange={handleChange} />
           </div>
           <div className="modal-field">
             <label>Job URL (optional)</label>

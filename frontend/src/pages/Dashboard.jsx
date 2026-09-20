@@ -1,3 +1,5 @@
+import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import JobFormModal from '../components/JobFormModal';
@@ -10,6 +12,7 @@ function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [activeFilter, setActiveFilter] = useState('All');
+  const navigate = useNavigate();
 
   const token = localStorage.getItem('token');
   const authHeader = { headers: { Authorization: `Bearer ${token}` } };
@@ -41,19 +44,25 @@ function Dashboard() {
       );
       setJobs(jobs.map((job) => (job._id === id ? res.data : job)));
     } catch (err) {
-      console.error('Failed to update job', err);
-    }
+  toast.error('Failed to update status');
+}
   };
+  const handleLogout = () => {
+  localStorage.removeItem('token');
+  localStorage.removeItem('user');
+  navigate('/');
+};
 
-  const handleDelete = async (id) => {
-    if (!window.confirm('Delete this application?')) return;
-    try {
-      await axios.delete(`http://localhost:5000/api/jobs/${id}`, authHeader);
-      setJobs(jobs.filter((job) => job._id !== id));
-    } catch (err) {
-      console.error('Failed to delete job', err);
-    }
-  };
+ const handleDelete = async (id) => {
+  if (!window.confirm('Delete this application?')) return;
+  try {
+    await axios.delete(`http://localhost:5000/api/jobs/${id}`, authHeader);
+    setJobs(jobs.filter((job) => job._id !== id));
+    toast.success('Application deleted');
+  } catch (err) {
+    toast.error('Failed to delete application');
+  }
+};
 
   const filteredJobs =
     activeFilter === 'All' ? jobs : jobs.filter((job) => job.status === activeFilter);
@@ -65,9 +74,14 @@ function Dashboard() {
           <h1>Your applications</h1>
           <p className="job-count">{jobs.length} total</p>
         </div>
-        <button className="add-job-btn" onClick={() => setShowModal(true)}>
-          + Add application
-        </button>
+        <div className="header-actions">
+  <button className="add-job-btn" onClick={() => setShowModal(true)}>
+    + Add application
+  </button>
+  <button className="logout-btn" onClick={handleLogout}>
+    Logout
+  </button>
+</div>
       </div>
 
       <div className="filter-tabs">
