@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.post('/', protect, async (req, res) => {
   try {
-    const { company, role, status, jobUrl, notes } = req.body;
+    const { company, role, status, jobUrl, notes,appliedDate } = req.body;
 
     const newJob = new Job({
       user: req.user.id,
@@ -15,6 +15,7 @@ router.post('/', protect, async (req, res) => {
       status,
       jobUrl,
       notes,
+      appliedDate,
     });
 
     await newJob.save();

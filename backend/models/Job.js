@@ -19,6 +19,10 @@ const jobSchema = new mongoose.Schema({
     enum: ['Applied', 'Assessment', 'Interview', 'Offer', 'Rejected', 'Withdrawn'],
     default: 'Applied',
   },
+  appliedDate: {
+    type: Date,
+    default: Date.now,
+ },
   jobUrl: {
     type: String,
   },
