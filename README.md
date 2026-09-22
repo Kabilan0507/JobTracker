@@ -3,7 +3,7 @@
 A full-stack job application tracking platform. Add, organise, and analyse the jobs
 you have applied to, with authentication, filtering, and dashboard statistics.
 
-**Status:** In development.
+**Status:** Completed.
 
 ## Tech Stack
 
