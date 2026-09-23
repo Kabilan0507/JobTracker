@@ -20,7 +20,7 @@ function Dashboard() {
   useEffect(() => {
     const fetchJobs = async () => {
       try {
-        const res = await axios.get('http://localhost:5000/api/jobs', authHeader);
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/jobs`, authHeader);
         setJobs(res.data);
       } catch (err) {
         console.error('Failed to fetch jobs', err);
@@ -38,10 +38,10 @@ function Dashboard() {
   const handleStatusChange = async (id, newStatus) => {
     try {
       const res = await axios.put(
-        `http://localhost:5000/api/jobs/${id}`,
-        { status: newStatus },
-        authHeader
-      );
+  `${import.meta.env.VITE_API_URL}/api/jobs/${id}`,
+  { status: newStatus },
+  authHeader
+);
       setJobs(jobs.map((job) => (job._id === id ? res.data : job)));
     } catch (err) {
   toast.error('Failed to update status');
@@ -56,7 +56,7 @@ function Dashboard() {
  const handleDelete = async (id) => {
   if (!window.confirm('Delete this application?')) return;
   try {
-    await axios.delete(`http://localhost:5000/api/jobs/${id}`, authHeader);
+    await axios.delete(`${import.meta.env.VITE_API_URL}/api/jobs/${id}`, authHeader);
     setJobs(jobs.filter((job) => job._id !== id));
     toast.success('Application deleted');
   } catch (err) {

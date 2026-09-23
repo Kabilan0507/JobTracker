@@ -21,7 +21,7 @@ function JobFormModal({ onClose, onJobAdded }) {
     e.preventDefault();
     try {
       const token = localStorage.getItem('token');
-      const res = await axios.post('http://localhost:5000/api/jobs', formData, {
+     const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/jobs`, formData, {
         headers: { Authorization: `Bearer ${token}` },
       });
       toast.success('Application added');
